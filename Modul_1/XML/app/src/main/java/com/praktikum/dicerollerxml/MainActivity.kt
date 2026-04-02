@@ -1,6 +1,7 @@
 package com.praktikum.dicerollerxml
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,9 +25,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun rollDice() {
+
         diceResults[0] = (0..5).random()
         diceResults[1] = (0..5).random()
         updateUi()
+
+        if(diceResults[0] == diceResults[1]) Toast.makeText(this, getString(R.string.lucky), Toast.LENGTH_SHORT).show()
+        else Toast.makeText(this, getString(R.string.badluck), Toast.LENGTH_SHORT).show()
     }
 
     private fun updateUi() {

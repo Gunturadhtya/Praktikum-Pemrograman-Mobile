@@ -1,5 +1,6 @@
 package com.praktikum.diceroller
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,15 +59,17 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val result = remember { mutableStateListOf(1, 3) }
+        val context = LocalContext.current
+        val result = remember { mutableStateListOf(0, 0) }
 
         val imageDice = result.map { res ->
             when (res) {
-                0 -> R.drawable.dice_1
-                1 -> R.drawable.dice_2
-                2 -> R.drawable.dice_3
-                3 -> R.drawable.dice_4
-                4 -> R.drawable.dice_5
+                0 -> R.drawable.dice_0
+                1 -> R.drawable.dice_1
+                2 -> R.drawable.dice_2
+                3 -> R.drawable.dice_3
+                4 -> R.drawable.dice_4
+                5 -> R.drawable.dice_5
                 else -> R.drawable.dice_6
             }
         }
@@ -82,7 +86,19 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { result.replaceAll { (0..5).random() } }){
+        Button(onClick = {
+            result.replaceAll { (1..6).random() }
+            var prev = result.first()
+            result.forEach { res ->
+                if(prev != res) {
+                    prev = -1
+                }
+            }
+
+            if(prev != -1) Toast.makeText(context, context.getString(R.string.lucky), Toast.LENGTH_SHORT).show()
+            else Toast.makeText(context, context.getString(R.string.badluck), Toast.LENGTH_SHORT).show()
+
+        }){
             Text(stringResource(R.string.roll))
         }
     }
