@@ -1,6 +1,8 @@
 package com.praktikum.diceroller
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
@@ -54,38 +57,32 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var result = remember { mutableStateListOf(1,1) }
+        val result = remember { mutableStateListOf(1, 3) }
 
-        val imageDice1 = when (result.first()) {
-            0 -> R.drawable.dice_1
-            1 -> R.drawable.dice_2
-            2 -> R.drawable.dice_3
-            3 -> R.drawable.dice_4
-            4 -> R.drawable.dice_5
-            else -> R.drawable.dice_5
+        val imageDice = result.map { res ->
+            when (res) {
+                0 -> R.drawable.dice_1
+                1 -> R.drawable.dice_2
+                2 -> R.drawable.dice_3
+                3 -> R.drawable.dice_4
+                4 -> R.drawable.dice_5
+                else -> R.drawable.dice_6
+            }
         }
 
-        val imageDice2 = when (result.last()) {
-            0 -> R.drawable.dice_1
-            1 -> R.drawable.dice_2
-            2 -> R.drawable.dice_3
-            3 -> R.drawable.dice_4
-            4 -> R.drawable.dice_5
-            else -> R.drawable.dice_5
-        }
         Row(){
-            Image(
-                painter = painterResource(imageDice1),
-                contentDescription = result.toString()
-            )
-            Image(
-                painter = painterResource(imageDice2),
-                contentDescription = result.toString()
-            )
+           imageDice.forEachIndexed { index, img ->
+               Image(
+                   painter = painterResource(img),
+                   contentDescription = result[index].toString(),
+                   modifier = Modifier
+                       .weight(1f)
+               )
+           }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { result.replaceAll { (1..6).random() } }){
+        Button(onClick = { result.replaceAll { (0..5).random() } }){
             Text(stringResource(R.string.roll))
         }
     }
