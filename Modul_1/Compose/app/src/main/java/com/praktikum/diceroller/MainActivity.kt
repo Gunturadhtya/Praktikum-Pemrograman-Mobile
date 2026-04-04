@@ -23,10 +23,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.praktikum.diceroller.ui.theme.DiceRollerTheme
 import androidx.compose.material3.Button
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
@@ -60,25 +63,13 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val context = LocalContext.current
-        val result = remember { mutableStateListOf(0, 0) }
-
-        val imageDice = result.map { res ->
-            when (res) {
-                0 -> R.drawable.dice_0
-                1 -> R.drawable.dice_1
-                2 -> R.drawable.dice_2
-                3 -> R.drawable.dice_3
-                4 -> R.drawable.dice_4
-                5 -> R.drawable.dice_5
-                else -> R.drawable.dice_6
-            }
-        }
+        var diceResult by remember { mutableStateOf(listOf(0, 0))}
 
         Row(){
-           imageDice.forEachIndexed { index, img ->
+           diceResult.forEach { value ->
                Image(
-                   painter = painterResource(img),
-                   contentDescription = result[index].toString(),
+                   painter = painterResource(getDrawableDice(value)),
+                   contentDescription = value.toString(),
                    modifier = Modifier
                        .weight(1f)
                )
@@ -87,19 +78,26 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            result.replaceAll { (1..6).random() }
-            var prev = result.first()
-            result.forEach { res ->
-                if(prev != res) {
-                    prev = -1
-                }
-            }
-
-            if(prev != -1) Toast.makeText(context, context.getString(R.string.lucky), Toast.LENGTH_SHORT).show()
-            else Toast.makeText(context, context.getString(R.string.badluck), Toast.LENGTH_SHORT).show()
-
+            diceResult = rollDice(diceResult.size)
+            Toast.makeText(context, context.getString(checkLuck(diceResult)), Toast.LENGTH_SHORT).show()
         }){
             Text(stringResource(R.string.roll))
         }
     }
 }
+
+fun getDrawableDice(value: Int): Int = when (value) {
+    0 -> R.drawable.dice_0
+    1 -> R.drawable.dice_1
+    2 -> R.drawable.dice_2
+    3 -> R.drawable.dice_3
+    4 -> R.drawable.dice_4
+    5 -> R.drawable.dice_5
+    else -> R.drawable.dice_6
+}
+
+fun rollDice(count: Int = 2): List<Int> = List(count) {(1 .. 6).random()}
+
+fun checkLuck(result: List<Int>): Int =
+    if(result.all {it == result.first()}) R.string.lucky
+    else R.string.badluck
