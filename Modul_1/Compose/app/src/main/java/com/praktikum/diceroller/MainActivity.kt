@@ -1,8 +1,6 @@
 package com.praktikum.diceroller
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
@@ -26,7 +23,6 @@ import androidx.compose.material3.Button
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -65,7 +61,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         val context = LocalContext.current
         var diceResult by remember { mutableStateOf(listOf(0, 0))}
 
-        Row(){
+        Row{
            diceResult.forEach { value ->
                Image(
                    painter = painterResource(getDrawableDice(value)),
