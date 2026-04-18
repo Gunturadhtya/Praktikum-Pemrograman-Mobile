@@ -1,6 +1,7 @@
 package com.praktikum.diceroller
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -40,8 +41,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-
 @Preview
 @Composable
 fun DiceRollerApp() {
@@ -63,6 +62,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
 
         Row{
            diceResult.forEach { value ->
+               Log.i("Dice Render", "This dice is render with value $value")
                Image(
                    painter = painterResource(getDrawableDice(value)),
                    contentDescription = value.toString(),
