@@ -57,11 +57,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorController = remember { TipCalculatorController() }) {
-    val options = listOf("15", "18", "20")
-    var expanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -78,40 +75,10 @@ fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorContro
             placeholder = { Text("Bill Amount") }
         )
 
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
-        ) {
-
-            TextField(
-                value = controller.selectedPercentage,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                suffix = {Text("%")},
-                modifier = Modifier
-                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-            )
-
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                options.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option, color = MaterialTheme.colorScheme.onSurface) },
-                        onClick = {
-                            controller.updatePercentage(option)
-                            expanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
-            }
-        }
+        TipPercentageDropdown(
+            selected = controller.selectedPercentage,
+            onSelected = controller::updatePercentage
+        )
 
         Row(){
             Text(
@@ -119,9 +86,7 @@ fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorContro
             )
             Switch(
                 checked = controller.isRoundUp,
-                onCheckedChange = {
-                    controller.toggleRoundUp(it)
-                }
+                onCheckedChange = controller::toggleRoundUp
             )
         }
 
