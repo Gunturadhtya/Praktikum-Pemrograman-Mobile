@@ -30,6 +30,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,10 +38,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.modul2.ui.theme.Modul2Theme
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +65,16 @@ fun TipCalculator(modifier: Modifier = Modifier) {
     var selectedOption by remember { mutableStateOf("15") }
     var checked by remember { mutableStateOf(true) }
     val billAmountState = rememberTextFieldState()
-    var tipAmount by remember { mutableStateOf(BigDecimal(0)) }
-    var isVisibile by remember { mutableStateOf(true) }
+    val tipAmount by remember {
+        derivedStateOf {
+            val amount = billAmountState.text.toString().toBigDecimalOrNull() ?: BigDecimal.ZERO
+            val percentage = selectedOption.toBigDecimal().divide(BigDecimal(100))
+            val calculatedTip = amount.multiply(percentage)
+            if (checked) calculatedTip.setScale(0, RoundingMode.UP) else calculatedTip.setScale(2, RoundingMode.HALF_EVEN)
+        }
+    }
+
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -122,22 +133,14 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                 checked = checked,
                 onCheckedChange = {
                     checked = it
-                    isVisibile = it
                 }
             )
         }
 
         Text(
             text = "Tip Amount : $$tipAmount",
-            modifier = Modifier.alpha(if(isVisibile) 1f else 0f)
         )
     }
-}
-
-fun calculateTip(bill : BigDecimal, tip : BigDecimal) : BigDecimal{
-    val out = bill * (tip/100.toBigDecimal());
-    Log.d("result of calculate tip : ", out.toString())
-    return bill * (tip/100.toBigDecimal());
 }
 
 @Preview(showBackground = true)
