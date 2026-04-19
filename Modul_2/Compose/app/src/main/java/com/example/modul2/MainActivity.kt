@@ -59,21 +59,9 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TipCalculator(modifier: Modifier = Modifier) {
+fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorController = remember { TipCalculatorController() }) {
     val options = listOf("15", "18", "20")
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("15") }
-    var checked by remember { mutableStateOf(true) }
-    val billAmountState = rememberTextFieldState()
-    val tipAmount by remember {
-        derivedStateOf {
-            val amount = billAmountState.text.toString().toBigDecimalOrNull() ?: BigDecimal.ZERO
-            val percentage = selectedOption.toBigDecimal().divide(BigDecimal(100))
-
-            TipCalculatorModel.calculateTip(amount, percentage, checked)
-        }
-    }
-
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -85,7 +73,7 @@ fun TipCalculator(modifier: Modifier = Modifier) {
         )
 
         TextField(
-            state = billAmountState,
+            state = controller.billAmountState,
             lineLimits = TextFieldLineLimits.SingleLine,
             placeholder = { Text("Bill Amount") }
         )
@@ -96,7 +84,7 @@ fun TipCalculator(modifier: Modifier = Modifier) {
         ) {
 
             TextField(
-                value = selectedOption,
+                value = controller.selectedPercentage,
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = {
@@ -116,7 +104,7 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                     DropdownMenuItem(
                         text = { Text(option, color = MaterialTheme.colorScheme.onSurface) },
                         onClick = {
-                            selectedOption = option
+                            controller.updatePercentage(option)
                             expanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -130,15 +118,15 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                 text = "Round up tip?"
             )
             Switch(
-                checked = checked,
+                checked = controller.isRoundUp,
                 onCheckedChange = {
-                    checked = it
+                    controller.toggleRoundUp(it)
                 }
             )
         }
 
         Text(
-            text = "Tip Amount : $$tipAmount",
+            text = "Tip Amount : $${controller.tipAmount}",
         )
     }
 }
