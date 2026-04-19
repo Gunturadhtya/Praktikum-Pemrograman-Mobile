@@ -1,6 +1,5 @@
 package com.example.modul2
 
-import android.util.Log
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -12,7 +11,7 @@ object TipCalculatorModel {
     ): BigDecimal {
         val calculatedTip = amount.multiply(percentage)
         val finalTip = if (isRoundUp) {
-            calculatedTip.setScale(2, RoundingMode.UP)
+            calculatedTip.setScale(0, RoundingMode.UP).setScale(2)
         } else {
             calculatedTip.setScale(2, RoundingMode.HALF_EVEN)
         }

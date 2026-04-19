@@ -1,11 +1,13 @@
 package com.example.modul2
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -31,16 +33,20 @@ fun TipPercentageDropdown(
         modifier = modifier
     ) {
         TextField(
-            value = selected,
+            value = "$selected%",
             onValueChange = {},
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            suffix = {Text("%")},
             modifier = modifier
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Percent,
+                    contentDescription = "Percent Icon"
+                )
+            }
         )
 
         ExposedDropdownMenu(
@@ -50,7 +56,7 @@ fun TipPercentageDropdown(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option, color = MaterialTheme.colorScheme.onSurface) },
+                    text = { Text(option) },
                     onClick = {
                         onSelected(option)
                         expanded = false
