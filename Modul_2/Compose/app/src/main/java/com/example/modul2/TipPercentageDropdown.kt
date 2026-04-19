@@ -56,7 +56,7 @@ fun TipPercentageDropdown(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option) },
+                    text = { Text("$option%") },
                     onClick = {
                         onSelected(option)
                         expanded = false
