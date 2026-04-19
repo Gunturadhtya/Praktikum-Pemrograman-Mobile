@@ -98,7 +98,7 @@ fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorContro
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun TipCalculatorPreview() {
     Modul2Theme {
         TipCalculator()
     }
