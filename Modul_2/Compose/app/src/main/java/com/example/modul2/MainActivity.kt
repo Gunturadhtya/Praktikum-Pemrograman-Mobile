@@ -69,8 +69,8 @@ fun TipCalculator(modifier: Modifier = Modifier) {
         derivedStateOf {
             val amount = billAmountState.text.toString().toBigDecimalOrNull() ?: BigDecimal.ZERO
             val percentage = selectedOption.toBigDecimal().divide(BigDecimal(100))
-            val calculatedTip = amount.multiply(percentage)
-            if (checked) calculatedTip.setScale(0, RoundingMode.UP) else calculatedTip.setScale(2, RoundingMode.HALF_EVEN)
+
+            TipCalculatorModel.calculateTip(amount, percentage, checked)
         }
     }
 
