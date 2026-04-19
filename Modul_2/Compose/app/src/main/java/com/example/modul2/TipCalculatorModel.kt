@@ -12,7 +12,7 @@ object TipCalculatorModel {
     ): BigDecimal {
         val calculatedTip = amount.multiply(percentage)
         val finalTip = if (isRoundUp) {
-            calculatedTip.setScale(0, RoundingMode.UP)
+            calculatedTip.setScale(2, RoundingMode.UP)
         } else {
             calculatedTip.setScale(2, RoundingMode.HALF_EVEN)
         }
