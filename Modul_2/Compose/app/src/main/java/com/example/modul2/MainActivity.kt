@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
@@ -39,8 +40,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.modul2.ui.theme.Modul2Theme
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -58,29 +63,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorController = remember { TipCalculatorController() }) {
-
+fun TipCalculator(
+    controller: TipCalculatorController = remember { TipCalculatorController() }) {
     Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize().padding(32.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
     ) {
         Text(
-            text = "Calculate Tip"
+            text = "Calculate Tip",
         )
 
         TextField(
             state = controller.billAmountState,
             lineLimits = TextFieldLineLimits.SingleLine,
-            placeholder = { Text("Bill Amount") }
+            placeholder = { Text("Bill Amount") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         TipPercentageDropdown(
             selected = controller.selectedPercentage,
-            onSelected = controller::updatePercentage
+            onSelected = controller::updatePercentage,
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Row(){
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
             Text(
                 text = "Round up tip?"
             )
@@ -92,6 +102,8 @@ fun TipCalculator(modifier: Modifier = Modifier, controller: TipCalculatorContro
 
         Text(
             text = "Tip Amount : $${controller.tipAmount}",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }

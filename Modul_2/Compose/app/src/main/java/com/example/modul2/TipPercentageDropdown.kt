@@ -20,13 +20,15 @@ import androidx.compose.ui.Modifier
 fun TipPercentageDropdown(
     selected: String,
     onSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val options = listOf("15", "18", "20")
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
     ) {
         TextField(
             value = selected,
@@ -37,13 +39,14 @@ fun TipPercentageDropdown(
             },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             suffix = {Text("%")},
-            modifier = Modifier
+            modifier = modifier
                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            modifier = modifier
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
