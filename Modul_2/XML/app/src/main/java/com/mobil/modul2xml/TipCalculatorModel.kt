@@ -1,6 +1,5 @@
 package com.mobil.modul2xml
 
-import android.util.Log
 import java.math.BigDecimal
 import java.math.RoundingMode
 
