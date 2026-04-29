@@ -17,7 +17,8 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
             val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
 
             DetailScreen(
-                detailArgs.problemId
+                detailArgs.problemId,
+                modifier
             )
         }
     }
