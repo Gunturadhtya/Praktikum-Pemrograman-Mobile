@@ -1,5 +1,6 @@
 package com.mobil.modul3compose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
@@ -21,6 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +33,22 @@ fun DetailScreen(problemId: String, modifier: Modifier = Modifier) {
     val problem = ProblemRepository.getProblemById(problemId)
 
     Column(modifier = modifier.padding(16.dp)) {
+        Image(
+            painter = painterResource(problem?.img ?: R.drawable.ic_launcher_foreground),
+            contentDescription = "Thumbnail",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth().height(128.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(text = "${problem?.title}", style = MaterialTheme.typography.labelLarge)
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(text = "${problem?.description}")
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Text(text = "Solution Code:", style = MaterialTheme.typography.labelLarge)
 
         Spacer(modifier = Modifier.height(8.dp))
