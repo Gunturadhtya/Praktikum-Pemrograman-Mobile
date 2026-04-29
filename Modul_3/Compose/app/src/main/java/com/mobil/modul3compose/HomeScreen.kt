@@ -1,5 +1,7 @@
 package com.mobil.modul3compose
 
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.core.net.toUri
 
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier){
@@ -56,6 +60,7 @@ fun ProblemScreen(dummyProblemList: List<CodeforcesProblem>, navController: NavC
 
 @Composable
 fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -98,14 +103,17 @@ fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
                     Button(
                         modifier = Modifier.padding(8.dp),
                         onClick = {
-                            navController.navigate(RoutingNames.DetailScreen(problem.problemId))
+                            navController.context.startActivity(Intent(Intent.ACTION_VIEW,
+                                problem.url.toUri()))
                         }
                     ) {
                         Text("Problem")
                     }
                     Button(
                         modifier = Modifier.padding(8.dp),
-                        onClick = {}
+                        onClick = {
+                            navController.navigate(RoutingNames.DetailScreen(problem.problemId))
+                        }
                     ) {
                         Text("Detail")
                     }
