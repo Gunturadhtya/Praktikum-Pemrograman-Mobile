@@ -1,5 +1,6 @@
 package com.mobil.modul3compose
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,10 +15,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,12 +32,11 @@ import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mobil.modul3compose.ui.theme.Modul3ComposeTheme
@@ -58,55 +59,65 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen(modifier: Modifier){
     val dummyProblemList = listOf(
         CodeforcesProblem(
-            problemId = "4A",
-            title = "Watermelon",
-            description = "Determine if a watermelon of weight w can be divided into two parts, each weighing an even number of kilos.",
-            tags = listOf("brute force", "math"),
-            url = "https://codeforces.com/problemset/problem/4/A",
-            solutionCode = "Belum ada"
+            problemId = "2220A",
+            title = "Blocked",
+            description = "Determine if the array elements can be rearranged so that no identical subsets can be formed in the prefix.",
+            tags = listOf("greedy", "constructive algorithms"),
+            url = "https://codeforces.com/contest/2220/problem/A",
+            solutionCode = "Belum ada",
+            img = R.drawable.a_blocked
         ),
         CodeforcesProblem(
-            problemId = "71A",
-            title = "Way Too Long Words",
-            description = "Abbreviate words longer than 10 characters by replacing the middle with the count of omitted letters.",
-            tags = listOf("strings"),
-            url = "https://codeforces.com/problemset/problem/71/A",
-            solutionCode = "Belum ada"
+            problemId = "2209B",
+            title = "Array Operations",
+            description = "Process the sequence to find the optimal arrangement based on the given continuous interval conditions.",
+            tags = listOf("implementation", "math"),
+            url = "https://codeforces.com/contest/2209/problem/B",
+            solutionCode = "Belum ada",
+            img = R.drawable.b_array_operation
         ),
         CodeforcesProblem(
-            problemId = "1A",
-            title = "Theatre Square",
-            description = "Find the minimum number of a x a flagstones needed to cover an n x m rectangular square.",
-            tags = listOf("math"),
-            url = "https://codeforces.com/problemset/problem/1/A",
-            solutionCode = "Belum ada"
+            problemId = "2209A",
+            title = "Initial Configuration",
+            description = "Find the minimum number of operations required to achieve the valid array state.",
+            tags = listOf("greedy", "sortings"),
+            url = "https://codeforces.com/contest/2209/problem/A",
+            solutionCode = "Belum ada",
+            img = R.drawable.a_initial_config
         ),
         CodeforcesProblem(
-            problemId = "158A",
-            title = "Next Round",
-            description = "Calculate how many contestants will advance to the next round based on a k-th place finisher's score.",
-            tags = listOf("implementation"),
-            url = "https://codeforces.com/problemset/problem/158/A",
-            solutionCode = "Belum ada"
+            problemId = "2125B",
+            title = "Left and Down",
+            description = "Navigate a 2D coordinate system using only 'Left' and 'Down' moves to calculate the required combinations.",
+            tags = listOf("dp", "geometry"),
+            url = "https://codeforces.com/contest/2125/problem/B",
+            solutionCode = "Belum ada",
+            img = R.drawable.b_left_and_down
         ),
         CodeforcesProblem(
-            problemId = "50A",
-            title = "Domino piling",
-            description = "Find the maximum number of 2x1 dominoes that can be placed on an M x N board.",
-            tags = listOf("greedy", "math"),
-            url = "https://codeforces.com/problemset/problem/50/A",
-            solutionCode = "Belum ada"
+            problemId = "2209C",
+            title = "Find the Zero",
+            description = "Interactive problem: You are given a hidden array of length 2n containing 1 to n and n zeros. Query pairs to find the positions of the zeroes.",
+            tags = listOf("interactive", "constructive algorithms"),
+            url = "https://codeforces.com/contest/2209/problem/C",
+            solutionCode = "Belum ada",
+            img = R.drawable.c_find_the_zero
         )
     )
 
-    Column(
+    ProblemScreen(dummyProblemList)
+}
+
+@Composable
+fun ProblemScreen(dummyProblemList: List<CodeforcesProblem>, modifier: Modifier = Modifier) {
+    LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
-        ProblemCarousel(dummyProblemList)
-        LazyColumn() {
-            items(dummyProblemList) {problem ->
-                ProblemCard(problem)
-            }
+        item {
+            ProblemCarousel(dummyProblemList)
+        }
+        items(dummyProblemList) { problem ->
+            ProblemCard(problem)
         }
     }
 }
@@ -116,12 +127,21 @@ fun ProblemCard(problem: CodeforcesProblem) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
+        ),
+        modifier = Modifier.padding(8.dp)
     ) {
-        Row() {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(8.dp)
+        ) {
             Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = "Problem ${problem.title} Image"
+                painter = painterResource(id = problem.img),
+                contentDescription = "Problem ${problem.title} Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .width(128.dp)
+                    .height(256.dp)
+                    .clip(RoundedCornerShape(16.dp))
             )
             Column() {
                 Text(
@@ -184,8 +204,9 @@ fun ProblemCarousel(problem: List<CodeforcesProblem>) {
         Image(
             modifier = Modifier
                 .height(205.dp)
-                .maskClip(MaterialTheme.shapes.extraLarge),
-            painter = painterResource(R.drawable.ic_launcher_background),
+                .maskClip(MaterialTheme.shapes.extraLarge)
+                .fillMaxSize(),
+            painter = painterResource(item.img),
             contentDescription = item.title,
             contentScale = ContentScale.Crop
         )
