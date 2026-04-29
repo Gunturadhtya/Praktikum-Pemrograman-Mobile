@@ -1,0 +1,24 @@
+package com.mobil.modul3compose
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+
+@Composable
+fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController, startDestination = RoutingNames.HomeScreen) {
+        composable<RoutingNames.HomeScreen>{
+            HomeScreen(navController, modifier)
+        }
+        composable<RoutingNames.DetailScreen>{ navBackStack ->
+            val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
+
+            DetailScreen(
+                detailArgs.problemId
+            )
+        }
+    }
+}
