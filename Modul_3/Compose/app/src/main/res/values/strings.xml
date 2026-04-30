@@ -19,4 +19,5 @@
 
     <string name="problem_2209c_title" translatable="false">Find the Zero</string>
     <string name="problem_2209c_desc">Interactive problem: You are given a hidden array of length 2n containing 1 to n and n zeros. Query pairs to find the positions of the zeroes.</string>
+    <string name="back">Back</string>
 </resources>

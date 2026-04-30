@@ -17,10 +17,12 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
         }
         composable<RoutingNames.DetailScreen>{ navBackStack ->
             val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
+            val viewModel: DetailViewModel = viewModel()
 
             DetailScreen(
                 detailArgs.problemId,
-                modifier
+                viewModel,
+                {navController.popBackStack()}
             )
         }
         composable<RoutingNames.LanguageScreen> {

@@ -5,6 +5,7 @@
     <string name="language_english">Inggris</string>
     <string name="language_indonesian">Bahasa Indonesia</string>
 
+
     <string name="problem_2220a_desc">Tentukan apakah elemen array dapat disusun ulang sehingga tidak ada subhimpunan identik yang terbentuk pada prefiks.</string>
 
     <string name="problem_2209b_desc">Proses urutan untuk menemukan susunan optimal berdasarkan kondisi interval kontinu yang diberikan.</string>
@@ -14,4 +15,5 @@
     <string name="problem_2125b_desc">Navigasi sistem koordinat 2D hanya menggunakan gerakan \'Kiri\' dan \'Bawah\' untuk menghitung kombinasi yang diperlukan.</string>
 
     <string name="problem_2209c_desc">Masalah interaktif: Anda diberikan array tersembunyi dengan panjang 2n yang berisi 1 hingga n dan n angka nol. Kuerikan pasangan untuk menemukan posisi angka-angka nol tersebut.</string>
+    <string name="back">Kembali</string>
 </resources>
