@@ -18,28 +18,44 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+
+@Composable
+fun LanguageScreen(
+    navController: NavController,
+    viewModel: LanguageViewModel = viewModel()
+) {
+    val state by viewModel.uiState.collectAsState()
+
+    LanguageContent(
+        state = state,
+        onBackClick = { navController.popBackStack() },
+        onLanguageClick = { viewModel.onLanguageSelected(it) }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LanguageScreen(navController: NavController, modifier: Modifier = Modifier) {
-    val currentTag = remember {
-        val locales = AppCompatDelegate.getApplicationLocales()
-        if (!locales.isEmpty) locales[0]?.language ?: "en" else "en"
-    }
-
+private fun LanguageContent(
+    state: LanguageState,
+    onBackClick: () -> Unit,
+    onLanguageClick: (String) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(id = R.string.language_title)) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
@@ -47,22 +63,18 @@ fun LanguageScreen(navController: NavController, modifier: Modifier = Modifier) 
         }
     ) { paddingValues ->
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            LanguageItem(
-                title = stringResource(id = R.string.language_english),
-                tag = "en",
-                currentTag = currentTag,
-                onClick = { setLanguage("en") }
-            )
-            LanguageItem(
-                title = stringResource(id = R.string.language_indonesian),
-                tag = "id",
-                currentTag = currentTag,
-                onClick = { setLanguage("id") }
-            )
+            state.languages.forEach { language ->
+                LanguageItem(
+                    title = language.name,
+                    tag = language.tag,
+                    currentTag = state.selectedTag,
+                    onClick = { onLanguageClick(language.tag) }
+                )
+            }
         }
     }
 }
@@ -87,9 +99,4 @@ private fun LanguageItem(
             Icon(Icons.Default.Check, contentDescription = "Selected")
         }
     }
-}
-
-private fun setLanguage(languageTag: String) {
-    val appLocale = LocaleListCompat.forLanguageTags(languageTag)
-    AppCompatDelegate.setApplicationLocales(appLocale)
 }

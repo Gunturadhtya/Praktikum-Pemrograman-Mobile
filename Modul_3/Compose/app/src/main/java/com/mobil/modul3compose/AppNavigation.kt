@@ -2,6 +2,8 @@ package com.mobil.modul3compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,7 +24,8 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
             )
         }
         composable<RoutingNames.LanguageScreen> {
-            LanguageScreen(navController, modifier)
+            val viewModel: LanguageViewModel = viewModel()
+            LanguageScreen(navController, viewModel)
         }
     }
 }
