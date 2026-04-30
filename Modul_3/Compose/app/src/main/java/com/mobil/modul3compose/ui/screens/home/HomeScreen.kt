@@ -2,6 +2,7 @@ package com.mobil.modul3compose.ui.screens.home
 
 import android.content.Intent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -95,7 +96,10 @@ private fun HomeContent(
     ) {
         if (problems.isNotEmpty()) {
             item {
-                ProblemCarousel(problems)
+                ProblemCarousel(
+                    problems,
+                    onDetailClick
+                )
             }
 
             items(problems) { problem ->
@@ -158,7 +162,8 @@ fun ProblemCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProblemCarousel(
-    problem: List<CodeforcesProblem>
+    problem: List<CodeforcesProblem>,
+    onItemClick: (String) -> Unit
 ) {
     HorizontalMultiBrowseCarousel(
         state = rememberCarouselState { problem.count() },
@@ -174,6 +179,7 @@ fun ProblemCarousel(
         Image(
             modifier = Modifier
                 .height(205.dp)
+                .clickable { onItemClick(item.problemId) }
                 .maskClip(MaterialTheme.shapes.extraLarge)
                 .fillMaxSize(),
             painter = painterResource(item.img),

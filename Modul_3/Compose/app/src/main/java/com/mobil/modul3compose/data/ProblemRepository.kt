@@ -8,7 +8,6 @@ object ProblemRepository {
             problemId = "2220A",
             title = R.string.problem_2220a_title,
             description = R.string.problem_2220a_desc,
-            tags = listOf("greedy", "constructive algorithms"),
             url = "https://codeforces.com/contest/2220/problem/A",
             solutionCode = R.raw.problem_2220a_code, // Updated
             img = R.drawable.a_blocked
@@ -17,7 +16,6 @@ object ProblemRepository {
             problemId = "2209B",
             title = R.string.problem_2209b_title,
             description = R.string.problem_2209b_desc,
-            tags = listOf("implementation", "math"),
             url = "https://codeforces.com/contest/2209/problem/B",
             solutionCode = R.raw.problem_2209b_code, // Updated
             img = R.drawable.b_array_operation
@@ -26,7 +24,6 @@ object ProblemRepository {
             problemId = "2209A",
             title = R.string.problem_2209a_title,
             description = R.string.problem_2209a_desc,
-            tags = listOf("greedy", "sortings"),
             url = "https://codeforces.com/contest/2209/problem/A",
             solutionCode = R.raw.problem_2209a_code, // Updated
             img = R.drawable.a_initial_config
@@ -35,7 +32,6 @@ object ProblemRepository {
             problemId = "2125B",
             title = R.string.problem_2125b_title,
             description = R.string.problem_2125b_desc,
-            tags = listOf("dp", "geometry"),
             url = "https://codeforces.com/contest/2125/problem/B",
             solutionCode = R.raw.problem_2125b_code, // Updated
             img = R.drawable.b_left_and_down
@@ -44,7 +40,6 @@ object ProblemRepository {
             problemId = "2209C",
             title = R.string.problem_2209c_title,
             description = R.string.problem_2209c_desc,
-            tags = listOf("interactive", "constructive algorithms"),
             url = "https://codeforces.com/contest/2209/problem/C",
             solutionCode = R.raw.problem_2209c_code, // Updated
             img = R.drawable.c_find_the_zero
