@@ -1,4 +1,4 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.ui.screens.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,13 +1,17 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.mobil.modul3compose.ui.screens.detail.DetailScreen
+import com.mobil.modul3compose.ui.screens.detail.DetailViewModel
+import com.mobil.modul3compose.ui.screens.home.HomeScreen
+import com.mobil.modul3compose.ui.screens.home.HomeViewModel
+import com.mobil.modul3compose.ui.screens.language.LanguageScreen
+import com.mobil.modul3compose.ui.screens.language.LanguageViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -23,7 +27,7 @@ fun AppNavigation(navController: NavHostController) {
             DetailScreen(
                 detailArgs.problemId,
                 viewModel,
-                {navController.popBackStack()}
+                { navController.popBackStack() }
             )
         }
         composable<RoutingNames.LanguageScreen> {

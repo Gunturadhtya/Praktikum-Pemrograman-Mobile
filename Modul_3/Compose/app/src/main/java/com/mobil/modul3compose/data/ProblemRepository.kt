@@ -1,4 +1,6 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.data
+
+import com.mobil.modul3compose.R
 
 object ProblemRepository {
     private val problemList = listOf(

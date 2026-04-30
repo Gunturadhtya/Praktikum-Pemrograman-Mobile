@@ -1,10 +1,7 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.ui.screens.home
 
 import android.content.Intent
-import android.net.Uri
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -49,6 +46,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mobil.modul3compose.R
+import com.mobil.modul3compose.data.CodeforcesProblem
+import com.mobil.modul3compose.navigation.RoutingNames
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,7 +1,8 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobil.modul3compose.data.ProblemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

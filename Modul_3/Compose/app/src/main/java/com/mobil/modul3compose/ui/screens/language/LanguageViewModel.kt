@@ -1,4 +1,4 @@
-package com.mobil.modul3compose
+package com.mobil.modul3compose.ui.screens.language
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
