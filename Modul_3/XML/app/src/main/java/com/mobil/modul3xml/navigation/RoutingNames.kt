@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.navigation
+package com.mobil.modul3xml.navigation
 
 import kotlinx.serialization.Serializable
 

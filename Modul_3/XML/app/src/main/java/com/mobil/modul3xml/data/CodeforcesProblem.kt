@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.data
+package com.mobil.modul3xml.data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes

@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.ui.screens.detail
+package com.mobil.modul3xml.ui.screens.detail
 
 data class DetailState(
     val titleRes: Int = 0,
