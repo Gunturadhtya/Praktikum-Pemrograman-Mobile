@@ -52,9 +52,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             Modul3ComposeTheme {
                 val navController = rememberNavController()
-                Scaffold() { innerPadding ->
-                    AppNavigation(navController, Modifier.padding(innerPadding))
-                }
+                AppNavigation(navController)
             }
         }
     }

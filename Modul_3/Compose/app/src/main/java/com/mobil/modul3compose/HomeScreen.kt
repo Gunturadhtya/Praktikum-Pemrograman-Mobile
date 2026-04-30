@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,10 +27,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,51 +48,77 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, modifier: Modifier){
-    ProblemScreen(ProblemRepository.getAllProblems(), navController, modifier)
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = viewModel()
+) {
+    val state by viewModel.uiState.collectAsState()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(id = R.string.app_name)) },
+                actions = {
+                    IconButton(onClick = { navController.navigate(RoutingNames.LanguageScreen) }) {
+                        Icon(
+                            imageVector = Icons.Default.Language,
+                            contentDescription = "Change Language"
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        HomeContent(
+            problems = state.problems,
+            onDetailClick = { id -> navController.navigate(RoutingNames.DetailScreen(id)) },
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
 }
 
 @Composable
-fun ProblemScreen(dummyProblemList: List<CodeforcesProblem>, navController: NavController ,modifier: Modifier = Modifier) {
+private fun HomeContent(
+    problems: List<CodeforcesProblem>,
+    onDetailClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        item{
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                ,horizontalArrangement = Arrangement.End
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.navigate(RoutingNames.LanguageScreen)
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Language,
-                        contentDescription = "Change Language"
-                    )
-                }
+        if (problems.isNotEmpty()) {
+            item {
+                ProblemCarousel(problems)
             }
-        }
-        item {
-            ProblemCarousel(dummyProblemList)
-        }
-        items(dummyProblemList) { problem ->
-            ProblemCard(problem, navController)
+
+            items(problems) { problem ->
+                ProblemCard(
+                    problem = problem,
+                    onExternalClick = {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, problem.url.toUri()))
+                    },
+                    onDetailClick = { onDetailClick(problem.problemId) }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
-
+fun ProblemCard(
+    problem: CodeforcesProblem,
+    onExternalClick: () -> Unit,
+    onDetailClick: () -> Unit
+) {
     Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         modifier = Modifier.padding(8.dp)
     ) {
         Row(
@@ -96,48 +127,27 @@ fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = problem.img),
-                contentDescription = "Problem ${problem.title} Image",
+                contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(128.dp)
-                    .height(256.dp)
-                    .clip(RoundedCornerShape(16.dp))
+                modifier = Modifier.width(128.dp).height(256.dp).clip(RoundedCornerShape(16.dp))
             )
-            Column() {
+            Column {
                 Text(
                     text = stringResource(problem.title),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    textAlign = TextAlign.Left,
+                    modifier = Modifier.padding(16.dp),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = stringResource(problem.description),
-                    modifier = Modifier
-                        .padding(16.dp),
+                    modifier = Modifier.padding(16.dp),
                     textAlign = TextAlign.Justify,
                     fontSize = 16.sp
                 )
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Button(
-                        modifier = Modifier.padding(8.dp),
-                        onClick = {
-                            navController.context.startActivity(Intent(Intent.ACTION_VIEW,
-                                problem.url.toUri()))
-                        }
-                    ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    Button(onClick = onExternalClick, modifier = Modifier.padding(8.dp)) {
                         Text("Problem")
                     }
-                    Button(
-                        modifier = Modifier.padding(8.dp),
-                        onClick = {
-                            navController.navigate(RoutingNames.DetailScreen(problem.problemId))
-                        }
-                    ) {
+                    Button(onClick = onDetailClick, modifier = Modifier.padding(8.dp)) {
                         Text("Detail")
                     }
                 }
@@ -145,16 +155,11 @@ fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProblemCarousel(problem: List<CodeforcesProblem>) {
-    data class CarouselItem(
-        val id: Int,
-        @DrawableRes val imageResId: Int,
-        val contentDescription: String
-    )
-
+fun ProblemCarousel(
+    problem: List<CodeforcesProblem>
+) {
     HorizontalMultiBrowseCarousel(
         state = rememberCarouselState { problem.count() },
         modifier = Modifier

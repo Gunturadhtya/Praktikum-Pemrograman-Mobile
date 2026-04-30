@@ -10,10 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 
 @Composable
-fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = RoutingNames.HomeScreen) {
         composable<RoutingNames.HomeScreen>{
-            HomeScreen(navController, modifier)
+            val viewModel: HomeViewModel = viewModel()
+            HomeScreen(navController, viewModel)
         }
         composable<RoutingNames.DetailScreen>{ navBackStack ->
             val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
