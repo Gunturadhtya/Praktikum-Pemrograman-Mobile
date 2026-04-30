@@ -11,4 +11,7 @@ sealed class RoutingNames {
     data class DetailScreen(
         val problemId: String
     ) : RoutingNames()
+
+    @Serializable
+    object LanguageScreen: RoutingNames()
 }

@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,15 @@ fun ProblemScreen(dummyProblemList: List<CodeforcesProblem>, navController: NavC
     LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
+        item{
+            Button(
+                onClick = {
+                    navController.navigate(RoutingNames.LanguageScreen)
+                }
+            ){
+                Text("*")
+            }
+        }
         item {
             ProblemCarousel(dummyProblemList)
         }
@@ -82,14 +92,14 @@ fun ProblemCard(problem: CodeforcesProblem, navController: NavController) {
             )
             Column() {
                 Text(
-                    text = problem.title,
+                    text = stringResource(problem.title),
                     modifier = Modifier
                         .padding(16.dp),
                     textAlign = TextAlign.Left,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = problem.description,
+                    text = stringResource(problem.description),
                     modifier = Modifier
                         .padding(16.dp),
                     textAlign = TextAlign.Justify,
@@ -149,7 +159,7 @@ fun ProblemCarousel(problem: List<CodeforcesProblem>) {
                 .maskClip(MaterialTheme.shapes.extraLarge)
                 .fillMaxSize(),
             painter = painterResource(item.img),
-            contentDescription = item.title,
+            contentDescription = stringResource(item.title),
             contentScale = ContentScale.Crop
         )
     }

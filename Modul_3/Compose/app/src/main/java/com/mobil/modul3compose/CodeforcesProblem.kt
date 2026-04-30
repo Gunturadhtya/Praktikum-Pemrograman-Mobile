@@ -1,17 +1,15 @@
 package com.mobil.modul3compose
 
 import androidx.annotation.DrawableRes
-import androidx.compose.ui.graphics.Color
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
+import androidx.annotation.RawRes
+import androidx.annotation.StringRes
 
-@Serializable
 data class CodeforcesProblem(
     val problemId: String,
-    val title: String,
-    val description: String,
+    @StringRes val title: Int,
+    @StringRes val description: Int,
     val tags: List<String>,
     val url: String,
-    val solutionCode: String,
+    @RawRes val solutionCode: Int,
     @DrawableRes val img: Int,
 )

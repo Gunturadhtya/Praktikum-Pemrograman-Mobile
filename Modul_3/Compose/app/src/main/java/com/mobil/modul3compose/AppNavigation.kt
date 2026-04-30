@@ -21,5 +21,8 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
                 modifier
             )
         }
+        composable<RoutingNames.LanguageScreen> {
+            LanguageScreen(navController, modifier)
+        }
     }
 }
