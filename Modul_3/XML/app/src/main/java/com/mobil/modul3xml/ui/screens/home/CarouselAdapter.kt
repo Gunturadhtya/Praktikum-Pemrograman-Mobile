@@ -6,16 +6,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobil.modul3xml.data.CodeforcesProblem
 import com.mobil.modul3xml.databinding.ItemProblemCarouselBinding
+import com.mobil.modul3xml.util.DiffCallback
 
 class CarouselAdapter(
     private val onItemClick: (String) -> Unit
-) : ListAdapter<CodeforcesProblem, CarouselAdapter.CarouselViewHolder>(ProblemDiffCallback) {
+) : ListAdapter<CodeforcesProblem, CarouselAdapter.CarouselViewHolder>(
+    DiffCallback<CodeforcesProblem> {it.problemId}
+) {
 
-    inner class CarouselViewHolder(private val binding: ItemProblemCarouselBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class CarouselViewHolder(
+        private val binding: ItemProblemCarouselBinding,
+        private val onItemClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(problem: CodeforcesProblem) {
             binding.ivCarouselItem.setImageResource(problem.img)
             binding.root.contentDescription = binding.root.context.getString(problem.title)
+
             binding.root.setOnClickListener { onItemClick(problem.problemId) }
         }
     }
@@ -24,7 +31,7 @@ class CarouselAdapter(
         val binding = ItemProblemCarouselBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return CarouselViewHolder(binding)
+        return CarouselViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {

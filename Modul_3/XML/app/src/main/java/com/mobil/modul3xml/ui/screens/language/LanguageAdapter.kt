@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobil.modul3xml.databinding.ItemLanguageBinding
+import com.mobil.modul3xml.util.DiffCallback
 
 class LanguageAdapter(
     private val onLanguageClick: (String) -> Unit
-) : ListAdapter<LanguageModel, LanguageAdapter.LanguageViewHolder>(LanguageDiffCallback) {
-
+) : ListAdapter<LanguageModel, LanguageAdapter.LanguageViewHolder>(
+    DiffCallback<LanguageModel> { it.tag }
+) {
     class LanguageViewHolder(private val binding: ItemLanguageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

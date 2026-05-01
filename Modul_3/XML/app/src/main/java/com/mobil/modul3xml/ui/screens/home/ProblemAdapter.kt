@@ -8,14 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobil.modul3xml.databinding.ItemProblemCardBinding
 import com.mobil.modul3xml.databinding.ItemProblemCarouselBinding
 import com.mobil.modul3xml.data.CodeforcesProblem
+import com.mobil.modul3xml.util.DiffCallback
 
 class ProblemListAdapter(
     private val onExternalClick: (String) -> Unit,
     private val onDetailClick: (String) -> Unit
-) : ListAdapter<CodeforcesProblem, ProblemListAdapter.ProblemViewHolder>(ProblemDiffCallback) {
+) : ListAdapter<CodeforcesProblem, ProblemListAdapter.ProblemViewHolder>(
+    DiffCallback<CodeforcesProblem> {it.problemId}
+) {
 
-    inner class ProblemViewHolder(private val binding: ItemProblemCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ProblemViewHolder(
+        private val binding: ItemProblemCardBinding,
+        private val onExternalClick: (String) -> Unit,
+        private val onDetailClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(problem: CodeforcesProblem) {
             binding.ivProblem.setImageResource(problem.img)
             binding.tvTitle.setText(problem.title)
@@ -30,7 +37,7 @@ class ProblemListAdapter(
         val binding = ItemProblemCardBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ProblemViewHolder(binding)
+        return ProblemViewHolder(binding, onExternalClick, onDetailClick)
     }
 
     override fun onBindViewHolder(holder: ProblemViewHolder, position: Int) {
