@@ -15,4 +15,5 @@
     <string name="problem_2125b_desc">Navigasi sistem koordinat 2D hanya menggunakan gerakan \'Kiri\' dan \'Bawah\' untuk menghitung kombinasi yang diperlukan.</string>
 
     <string name="problem_2209c_desc">Masalah interaktif: Anda diberikan array tersembunyi dengan panjang 2n yang berisi 1 hingga n dan n angka nol. Kuerikan pasangan untuk menemukan posisi angka-angka nol tersebut.</string>
+    <string name="problem_not_found">Problem tidak ditemukan</string>
 </resources>

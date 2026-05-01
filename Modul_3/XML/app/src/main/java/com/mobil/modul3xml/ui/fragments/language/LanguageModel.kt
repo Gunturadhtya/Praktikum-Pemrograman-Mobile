@@ -1,4 +1,4 @@
-package com.mobil.modul3xml.ui.screens.language
+package com.mobil.modul3xml.ui.fragments.language
 
 data class LanguageModel(
     val name: String,

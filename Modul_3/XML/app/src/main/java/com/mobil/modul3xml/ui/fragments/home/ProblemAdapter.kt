@@ -1,12 +1,10 @@
-package com.mobil.modul3xml.ui.screens.home
+package com.mobil.modul3xml.ui.fragments.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobil.modul3xml.databinding.ItemProblemCardBinding
-import com.mobil.modul3xml.databinding.ItemProblemCarouselBinding
 import com.mobil.modul3xml.data.CodeforcesProblem
 import com.mobil.modul3xml.util.DiffCallback
 

@@ -1,4 +1,4 @@
-package com.mobil.modul3xml.ui.screens.home
+package com.mobil.modul3xml.ui.fragments.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

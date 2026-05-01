@@ -1,4 +1,4 @@
-package com.mobil.modul3xml.ui.screens.language
+package com.mobil.modul3xml.ui.fragments.language
 
 import android.os.Bundle
 import android.view.LayoutInflater

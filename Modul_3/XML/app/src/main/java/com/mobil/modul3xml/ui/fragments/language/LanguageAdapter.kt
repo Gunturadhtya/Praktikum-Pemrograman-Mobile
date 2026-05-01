@@ -1,9 +1,8 @@
-package com.mobil.modul3xml.ui.screens.language
+package com.mobil.modul3xml.ui.fragments.language
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobil.modul3xml.databinding.ItemLanguageBinding
