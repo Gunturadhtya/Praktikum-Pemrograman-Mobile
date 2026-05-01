@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_language -> {
-//                    findNavController().navigate(R.id.action_homeFragment_to_languageFragment)
+                    findNavController().navigate(R.id.action_homeFragment_to_languageFragment)
                     true
                 }
                 else -> false
@@ -98,7 +98,6 @@ class HomeFragment : Fragment() {
                     carouselAdapter.submitList(problems)
                     listAdapter.submitList(problems)
 
-                    // Handle visibility if empty (optional but good practice)
                     if (problems.isEmpty()) {
                         binding.carouselRecyclerView.visibility = View.GONE
                         binding.listRecyclerView.visibility = View.GONE
