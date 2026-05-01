@@ -86,7 +86,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetail(problemId: String) {
-        val bundle = bundleOf("problemId" to problemId)
+        val bundle = Bundle().apply{
+            putString("problemId", problemId)
+        }
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
