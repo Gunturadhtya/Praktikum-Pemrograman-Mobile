@@ -16,4 +16,6 @@
 
     <string name="problem_2209c_desc">Masalah interaktif: Anda diberikan array tersembunyi dengan panjang 2n yang berisi 1 hingga n dan n angka nol. Kuerikan pasangan untuk menemukan posisi angka-angka nol tersebut.</string>
     <string name="back">Kembali</string>
+    <string name="detail">Detail</string>
+    <string name="problem">Problem</string>
 </resources>
