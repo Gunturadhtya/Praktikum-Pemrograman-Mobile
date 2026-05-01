@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
         snapHelper.attachToRecyclerView(binding.carouselRecyclerView)
 
         carouselAdapter = CarouselAdapter { problemId ->
-//            navigateToDetail(problemId)
+            navigateToDetail(problemId)
         }
         binding.carouselRecyclerView.adapter = carouselAdapter
 
@@ -79,16 +79,16 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             },
             onDetailClick = { problemId ->
-//                navigateToDetail(problemId)
+                navigateToDetail(problemId)
             }
         )
         binding.listRecyclerView.adapter = listAdapter
     }
 
-//    private fun navigateToDetail(problemId: String) {
-//        val bundle = bundleOf("problemId" to problemId)
-//        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
-//    }
+    private fun navigateToDetail(problemId: String) {
+        val bundle = bundleOf("problemId" to problemId)
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+    }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {

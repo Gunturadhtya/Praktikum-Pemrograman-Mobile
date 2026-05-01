@@ -7,6 +7,11 @@
 
     <style name="Theme.Modul3XML" parent="Base.Theme.Modul3XML" />
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize8dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.App.CornerSize16Percent" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16%</item>
