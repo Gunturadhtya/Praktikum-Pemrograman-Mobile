@@ -10,23 +10,18 @@ import com.mobil.modul3xml.databinding.ItemLanguageBinding
 
 class LanguageAdapter(
     private val onLanguageClick: (String) -> Unit
-) : ListAdapter<LanguageUiModel, LanguageAdapter.LanguageViewHolder>(LanguageDiffCallback) {
+) : ListAdapter<LanguageModel, LanguageAdapter.LanguageViewHolder>(LanguageDiffCallback) {
 
-    inner class LanguageViewHolder(private val binding: ItemLanguageBinding) :
+    class LanguageViewHolder(private val binding: ItemLanguageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    onLanguageClick(getItem(position).tag)
-                }
-            }
-        }
-
-        fun bind(item: LanguageUiModel) {
+        fun bind(item: LanguageModel, onLanguageClick: (String) -> Unit) {
             binding.tvLanguageName.text = item.name
             binding.ivCheck.visibility = if (item.isSelected) View.VISIBLE else View.INVISIBLE
+
+            binding.root.setOnClickListener {
+                onLanguageClick(item.tag)
+            }
         }
     }
 
@@ -38,6 +33,6 @@ class LanguageAdapter(
     }
 
     override fun onBindViewHolder(holder: LanguageViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onLanguageClick)
     }
 }

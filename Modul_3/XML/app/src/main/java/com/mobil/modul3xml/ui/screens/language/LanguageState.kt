@@ -3,7 +3,7 @@ package com.mobil.modul3xml.ui.screens.language
 data class LanguageState(
     val selectedTag: String = "en",
     val languages: List<LanguageModel> = listOf(
-        LanguageModel("English", "en"),
-        LanguageModel("Indonesian", "id")
+        LanguageModel("English", "en", isSelected = true),
+        LanguageModel("Indonesian", "id", isSelected = false)
     )
 )

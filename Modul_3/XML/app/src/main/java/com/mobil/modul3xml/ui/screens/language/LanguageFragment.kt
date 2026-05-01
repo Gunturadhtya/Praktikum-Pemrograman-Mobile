@@ -55,9 +55,8 @@ class LanguageFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    // Map the domain state to UI models for the adapter
                     val uiModels = state.languages.map { language ->
-                        LanguageUiModel(
+                        LanguageModel(
                             name = language.name,
                             tag = language.tag,
                             isSelected = language.tag == state.selectedTag
