@@ -30,7 +30,6 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <!-- Carousel -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/carouselRecyclerView"
                 android:layout_width="match_parent"
@@ -41,7 +40,6 @@
                 android:paddingHorizontal="16dp"
                 tools:listitem="@layout/item_problem_carousel" />
 
-            <!-- Problem List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listRecyclerView"
                 android:layout_width="match_parent"

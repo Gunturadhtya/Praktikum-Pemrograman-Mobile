@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Modul3Compose</string>
+    <string name="app_name">Modul3XML</string>
     <string name="language_title">Bahasa</string>
     <string name="language_english">Inggris</string>
     <string name="language_indonesian">Bahasa Indonesia</string>
@@ -15,7 +15,4 @@
     <string name="problem_2125b_desc">Navigasi sistem koordinat 2D hanya menggunakan gerakan \'Kiri\' dan \'Bawah\' untuk menghitung kombinasi yang diperlukan.</string>
 
     <string name="problem_2209c_desc">Masalah interaktif: Anda diberikan array tersembunyi dengan panjang 2n yang berisi 1 hingga n dan n angka nol. Kuerikan pasangan untuk menemukan posisi angka-angka nol tersebut.</string>
-    <string name="back">Kembali</string>
-    <string name="detail">Detail</string>
-    <string name="problem">Problem</string>
 </resources>
