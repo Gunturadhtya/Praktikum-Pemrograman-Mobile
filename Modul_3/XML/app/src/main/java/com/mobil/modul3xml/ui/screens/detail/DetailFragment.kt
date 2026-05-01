@@ -17,7 +17,6 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreateView(
