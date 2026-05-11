@@ -27,7 +27,28 @@ class HomeViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getAllProblems()
             Timber.d("Loaded ${list.size} problems into the list")
+
+            list.forEach { problem ->
+                Timber.d("Problem Data : $problem")
+            }
+
             _uiState.update { it.copy(problems = list) }
         }
+    }
+
+    fun onProblemClicked(problemId: String) {
+        _uiState.update { it.copy(navigateToDetailEvent = problemId) }
+    }
+
+    fun onExternalUrlClicked(url: String) {
+        _uiState.update { it.copy(openExternalUrlEvent = url) }
+    }
+
+    fun onDetailNavigationHandled() {
+        _uiState.update { it.copy(navigateToDetailEvent = null) }
+    }
+
+    fun onExternalUrlHandled() {
+        _uiState.update { it.copy(openExternalUrlEvent = null) }
     }
 }

@@ -24,7 +24,7 @@ class DetailViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val codeText = context.resources.openRawResource(problem.solutionCode).bufferedReader().use { it.readText() }
 
-            Timber.d("DetailViewModel initialized for module $moduleName : ${problem.title}")
+            Timber.d("DetailViewModel initialized for module $moduleName : $problem")
 
             _state.update {
                 it.copy(

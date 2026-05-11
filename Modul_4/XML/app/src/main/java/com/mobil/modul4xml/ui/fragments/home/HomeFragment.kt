@@ -19,10 +19,9 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
 import com.mobil.modul4xml.data.ProblemRepository
+import timber.log.Timber
 
 class HomeFragment : Fragment() {
-// TODO : Gunakan StateFlow untuk mengelola event onClick dan data list item dari ViewModel ke Fragment
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -72,18 +71,16 @@ class HomeFragment : Fragment() {
         snapHelper.attachToRecyclerView(binding.carouselRecyclerView)
 
         carouselAdapter = CarouselAdapter { problemId ->
-            navigateToDetail(problemId)
+            viewModel.onProblemClicked(problemId)
         }
         binding.carouselRecyclerView.adapter = carouselAdapter
 
         listAdapter = ProblemListAdapter(
             onExternalClick = { url ->
-                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                startActivity(intent)
+                viewModel.onExternalUrlClicked(url)
             },
-            // TODO:  Log data dari list yang dipilih ketika berpindah ke halaman Detail
             onDetailClick = { problemId ->
-                navigateToDetail(problemId)
+                viewModel.onProblemClicked(problemId)
             }
         )
         binding.listRecyclerView.adapter = listAdapter
@@ -110,6 +107,19 @@ class HomeFragment : Fragment() {
                     } else {
                         binding.carouselRecyclerView.visibility = View.VISIBLE
                         binding.listRecyclerView.visibility = View.VISIBLE
+                    }
+
+                    state.navigateToDetailEvent?.let { problemId ->
+                        Timber.d("Navigating to detail page for problemId: $problemId")
+                        navigateToDetail(problemId)
+                        viewModel.onDetailNavigationHandled()
+                    }
+
+                    state.openExternalUrlEvent?.let { url ->
+                        Timber.d("Opening external URL: $url")
+                        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                        startActivity(intent)
+                        viewModel.onExternalUrlHandled()
                     }
                 }
             }

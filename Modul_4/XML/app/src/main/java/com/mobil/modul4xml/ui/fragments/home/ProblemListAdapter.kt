@@ -25,8 +25,6 @@ class ProblemListAdapter(
             binding.ivProblem.setImageResource(problem.img)
             binding.tvTitle.setText(problem.title)
             binding.tvDescription.setText(problem.description)
-
-            // TODO: Log saat tombol Detail dan tombol Explicit Intent ditekan (Timber)
             binding.btnProblem.setOnClickListener { onExternalClick(problem.url) }
             binding.btnDetail.setOnClickListener { onDetailClick(problem.problemId) }
         }
