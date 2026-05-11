@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.mobil.modul4xml.data.ProblemRepository
 import com.mobil.modul4xml.databinding.FragmentDetailBinding
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,15 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailViewModel by viewModels()
+    private val viewModel: DetailViewModel by viewModels {
+        val problemId = arguments?.getString("problemId")
+            ?: throw IllegalArgumentException("problemId argument is required")
+
+        val problem = ProblemRepository.getProblemById(problemId)
+            ?: throw IllegalArgumentException("Problem with id $problemId not found")
+
+        DetailViewModelFactory(problem, "Modul 4 XML")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,12 +40,10 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val problemId = arguments?.getString("problemId") ?: return
-
         setupToolbar()
         observeViewModel()
 
-        viewModel.loadDetail(requireContext(), problemId)
+        viewModel.loadDetail(requireContext())
     }
 
     private fun setupToolbar() {

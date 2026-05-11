@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class HomeViewModel(
     private val repository: ProblemRepository,
-    moduleName: String
+    private val moduleName: String
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
