@@ -18,6 +18,7 @@ import androidx.core.net.toUri
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
+import com.mobil.modul4xml.data.ProblemRepository
 
 class HomeFragment : Fragment() {
 // TODO : Gunakan StateFlow untuk mengelola event onClick dan data list item dari ViewModel ke Fragment
@@ -25,7 +26,10 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val repository = ProblemRepository
+
+    private val factory = HomeViewModelFactory(repository, "Modul 4 XML")
+    private val viewModel: HomeViewModel by viewModels {factory}
 
     private lateinit var carouselAdapter: CarouselAdapter
     private lateinit var listAdapter: ProblemListAdapter

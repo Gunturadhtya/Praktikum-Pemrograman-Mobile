@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mobil.modul4xml.databinding.ActivityMainBinding
+import timber.log.Timber.DebugTree
+import timber.log.Timber.Forest.plant
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        plant(DebugTree())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
