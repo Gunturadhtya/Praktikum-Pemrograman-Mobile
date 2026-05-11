@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Modul4XML</string>
+    <string name="language_title">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+
+    <string name="problem_2220a_title" translatable="false">Blocked</string>
+    <string name="problem_2220a_desc">Determine if the array elements can be rearranged so that no identical subsets can be formed in the prefix.</string>
+
+    <string name="problem_2209b_title" translatable="false">Array Operations</string>
+    <string name="problem_2209b_desc">Process the sequence to find the optimal arrangement based on the given continuous interval conditions.</string>
+
+    <string name="problem_2209a_title" translatable="false">Initial Configuration</string>
+    <string name="problem_2209a_desc">Find the minimum number of operations required to achieve the valid array state.</string>
+
+    <string name="problem_2125b_title" translatable="false">Left and Down</string>
+    <string name="problem_2125b_desc">Navigate a 2D coordinate system using only \'Left\' and \'Down\' moves to calculate the required combinations.</string>
+
+    <string name="problem_2209c_title" translatable="false">Find the Zero</string>
+    <string name="problem_2209c_desc">Interactive problem: You are given a hidden array of length 2n containing 1 to n and n zeros. Query pairs to find the positions of the zeroes.</string>
+    <string name="back" translatable="false">Back</string>
+    <string name="detail" translatable="false">Detail</string>
+    <string name="problem" translatable="false">Problem</string>
+    <string name="problem_not_found">Problem not found</string>
+</resources>

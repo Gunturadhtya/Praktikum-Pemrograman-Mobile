@@ -1,0 +1,40 @@
+package com.mobil.modul4xml.ui.fragments.home
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.mobil.modul4xml.data.CodeforcesProblem
+import com.mobil.modul4xml.databinding.ItemProblemCarouselBinding
+import com.mobil.modul4xml.util.DiffCallback
+
+class CarouselAdapter(
+    private val onItemClick: (String) -> Unit
+) : ListAdapter<CodeforcesProblem, CarouselAdapter.CarouselViewHolder>(
+    DiffCallback<CodeforcesProblem> {it.problemId}
+) {
+
+    class CarouselViewHolder(
+        private val binding: ItemProblemCarouselBinding,
+        private val onItemClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(problem: CodeforcesProblem) {
+            binding.ivCarouselItem.setImageResource(problem.img)
+            binding.root.contentDescription = binding.root.context.getString(problem.title)
+
+            binding.root.setOnClickListener { onItemClick(problem.problemId) }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
+        val binding = ItemProblemCarouselBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return CarouselViewHolder(binding, onItemClick)
+    }
+
+    override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+}
