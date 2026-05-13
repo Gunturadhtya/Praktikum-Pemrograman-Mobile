@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -55,9 +56,24 @@ import com.mobil.modul4compose.navigation.RoutingNames
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel
 ) {
     val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(state.navigateToDetailEvent) {
+        state.navigateToDetailEvent?.let { problemId ->
+            navController.navigate(RoutingNames.DetailScreen(problemId))
+            viewModel.onDetailNavigationHandled()
+        }
+    }
+
+    LaunchedEffect(state.openExternalUrlEvent) {
+        state.openExternalUrlEvent?.let { url ->
+            context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+            viewModel.onExternalUrlHandled()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -76,7 +92,8 @@ fun HomeScreen(
     ) { paddingValues ->
         HomeContent(
             problems = state.problems,
-            onDetailClick = { id -> navController.navigate(RoutingNames.DetailScreen(id)) },
+            onExternalClick = viewModel::onExternalUrlClicked,
+            onDetailClick = viewModel::onProblemClicked,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -85,11 +102,10 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     problems: List<CodeforcesProblem>,
+    onExternalClick: (String) -> Unit,
     onDetailClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 16.dp)
@@ -105,9 +121,7 @@ private fun HomeContent(
             items(problems) { problem ->
                 ProblemCard(
                     problem = problem,
-                    onExternalClick = {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, problem.url.toUri()))
-                    },
+                    onExternalClick = { onExternalClick(problem.url) },
                     onDetailClick = { onDetailClick(problem.problemId) }
                 )
             }

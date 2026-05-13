@@ -30,7 +30,7 @@ import com.mobil.modul4compose.R
 @Composable
 fun LanguageScreen(
     navController: NavController,
-    viewModel: LanguageViewModel = viewModel()
+    viewModel: LanguageViewModel
 ) {
     val state by viewModel.uiState.collectAsState()
 
