@@ -12,15 +12,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    private val repository: ProblemRepository = ProblemRepository
+    private val problemId: String,
+    private val moduleName: String
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailState())
     val state: StateFlow<DetailState> = _state.asStateFlow()
 
-    fun loadDetail(context: Context, problemId: String) {
+    fun loadDetail(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val problem = repository.getProblemById(problemId)
+            val problem = ProblemRepository.getProblemById(problemId)
 
             if (problem == null) {
                 _state.update { it.copy(isNotFound = true) }

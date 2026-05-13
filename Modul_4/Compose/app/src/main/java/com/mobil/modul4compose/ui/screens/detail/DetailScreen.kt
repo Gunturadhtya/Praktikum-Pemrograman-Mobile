@@ -41,16 +41,13 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    problemId: String,
     viewModel: DetailViewModel,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(problemId) {
-        viewModel.loadDetail(context, problemId)
-    }
+    viewModel.loadDetail(context)
 
     Scaffold(
         topBar = {

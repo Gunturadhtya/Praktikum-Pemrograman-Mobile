@@ -10,6 +10,7 @@ import androidx.navigation.toRoute
 import com.mobil.modul4compose.data.ProblemRepository
 import com.mobil.modul4compose.ui.screens.detail.DetailScreen
 import com.mobil.modul4compose.ui.screens.detail.DetailViewModel
+import com.mobil.modul4compose.ui.screens.detail.DetailViewModelFactory
 import com.mobil.modul4compose.ui.screens.home.HomeScreen
 import com.mobil.modul4compose.ui.screens.home.HomeViewModel
 import com.mobil.modul4compose.ui.screens.home.HomeViewModelFactory
@@ -26,11 +27,10 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable<RoutingNames.DetailScreen>{ navBackStack ->
             val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
-            val viewModel: DetailViewModel = viewModel()
+            val factory = remember { DetailViewModelFactory(detailArgs.problemId, "Modul4Compose") }
+            val viewModel: DetailViewModel = viewModel(factory = factory)
 
-            DetailScreen(
-                detailArgs.problemId,
-                viewModel,
+            DetailScreen(viewModel,
                 { navController.popBackStack() }
             )
         }
