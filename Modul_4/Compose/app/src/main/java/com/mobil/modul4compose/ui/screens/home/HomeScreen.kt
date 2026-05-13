@@ -51,6 +51,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobil.modul4compose.R
 import com.mobil.modul4compose.data.CodeforcesProblem
 import com.mobil.modul4compose.navigation.RoutingNames
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +64,7 @@ fun HomeScreen(
 
     LaunchedEffect(state.navigateToDetailEvent) {
         state.navigateToDetailEvent?.let { problemId ->
+            Timber.d("Navigating to detail page for problemId: $problemId")
             navController.navigate(RoutingNames.DetailScreen(problemId))
             viewModel.onDetailNavigationHandled()
         }
@@ -70,6 +72,7 @@ fun HomeScreen(
 
     LaunchedEffect(state.openExternalUrlEvent) {
         state.openExternalUrlEvent?.let { url ->
+            Timber.d("Opening external URL: $url")
             context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
             viewModel.onExternalUrlHandled()
         }
