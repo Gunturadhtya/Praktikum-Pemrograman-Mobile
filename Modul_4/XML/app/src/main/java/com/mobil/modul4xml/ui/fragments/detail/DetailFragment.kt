@@ -21,11 +21,8 @@ class DetailFragment : Fragment() {
     private val viewModel: DetailViewModel by viewModels {
         val problemId = arguments?.getString("problemId")
             ?: throw IllegalArgumentException("problemId argument is required")
-
-        val problem = ProblemRepository.getProblemById(problemId)
-            ?: throw IllegalArgumentException("Problem with id $problemId not found")
-
-        DetailViewModelFactory(problem, "Modul 4 XML")
+        
+        DetailViewModelFactory(problemId, "Modul 4 XML")
     }
 
     override fun onCreateView(

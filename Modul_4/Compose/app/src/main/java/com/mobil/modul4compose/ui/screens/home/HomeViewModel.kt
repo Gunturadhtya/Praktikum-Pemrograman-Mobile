@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeViewModel(
     private val repository: ProblemRepository,
@@ -19,12 +20,19 @@ class HomeViewModel(
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
 
     init {
+        Timber.d("ViewModel initialized for module: $moduleName")
         loadProblems()
     }
 
     private fun loadProblems() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getAllProblems()
+            Timber.d("Loaded ${list.size} problems into the list")
+
+            list.forEach { problem ->
+                Timber.d("Problem Data : $problem")
+            }
+
             _uiState.update { it.copy(problems = list) }
         }
     }

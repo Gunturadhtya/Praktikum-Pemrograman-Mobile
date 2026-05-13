@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobil.modul4xml.data.CodeforcesProblem
+import com.mobil.modul4xml.data.ProblemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class DetailViewModel(
-    private val problem: CodeforcesProblem,
+    private val problemId: String,
     private val moduleName: String
 ) : ViewModel() {
 
@@ -22,6 +23,13 @@ class DetailViewModel(
 
     fun loadDetail(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
+            val problem = ProblemRepository.getProblemById(problemId)
+
+            if (problem == null) {
+                _state.update { it.copy(isNotFound = true) }
+                return@launch
+            }
+
             val codeText = context.resources.openRawResource(problem.solutionCode).bufferedReader().use { it.readText() }
 
             Timber.d("DetailViewModel initialized for module $moduleName : $problem")

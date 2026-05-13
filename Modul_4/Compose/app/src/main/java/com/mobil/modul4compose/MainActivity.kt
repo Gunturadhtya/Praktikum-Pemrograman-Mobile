@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.compose.rememberNavController
 import com.mobil.modul4compose.navigation.AppNavigation
 import com.mobil.modul4compose.ui.theme.Modul3ComposeTheme
+import timber.log.Timber
+import timber.log.Timber.Forest.plant
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        plant(Timber.DebugTree())
         setContent {
             Modul3ComposeTheme {
                 val navController = rememberNavController()

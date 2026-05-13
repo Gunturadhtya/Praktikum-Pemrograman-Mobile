@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DetailViewModel(
     private val problemId: String,
@@ -29,6 +30,8 @@ class DetailViewModel(
             }
 
             val codeText = context.resources.openRawResource(problem.solutionCode).bufferedReader().use { it.readText() }
+
+            Timber.d("DetailViewModel initialized for module $moduleName : $problem")
 
             _state.update {
                 it.copy(
