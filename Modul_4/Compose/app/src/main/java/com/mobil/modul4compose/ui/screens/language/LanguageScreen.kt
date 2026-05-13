@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.ui.screens.language
+package com.mobil.modul4compose.ui.screens.language
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.mobil.modul3compose.R
+import com.mobil.modul4compose.R
 
 @Composable
 fun LanguageScreen(

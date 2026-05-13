@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.ui.screens.home
+package com.mobil.modul4compose.ui.screens.home
 
 import android.content.Intent
 import androidx.compose.foundation.Image
@@ -47,9 +47,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mobil.modul3compose.R
-import com.mobil.modul3compose.data.CodeforcesProblem
-import com.mobil.modul3compose.navigation.RoutingNames
+import com.mobil.modul4compose.R
+import com.mobil.modul4compose.data.CodeforcesProblem
+import com.mobil.modul4compose.navigation.RoutingNames
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

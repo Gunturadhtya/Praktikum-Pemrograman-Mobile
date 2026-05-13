@@ -1,6 +1,5 @@
-package com.mobil.modul3compose.ui.theme
+package com.mobil.modul4compose.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.ui.screens.language
+package com.mobil.modul4compose.ui.screens.language
 
 data class LanguageState(
     val selectedTag: String = "en",

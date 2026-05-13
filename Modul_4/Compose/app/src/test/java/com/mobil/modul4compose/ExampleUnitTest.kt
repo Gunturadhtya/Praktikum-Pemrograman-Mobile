@@ -1,4 +1,4 @@
-package com.mobil.modul3compose
+package com.mobil.modul4compose
 
 import org.junit.Test
 

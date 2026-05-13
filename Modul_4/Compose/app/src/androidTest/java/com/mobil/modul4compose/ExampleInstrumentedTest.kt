@@ -1,4 +1,4 @@
-package com.mobil.modul3compose
+package com.mobil.modul4compose
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mobil.modul3compose"
+    namespace = "com.mobil.modul4compose"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.mobil.modul3compose"
+        applicationId = "com.mobil.modul4compose"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

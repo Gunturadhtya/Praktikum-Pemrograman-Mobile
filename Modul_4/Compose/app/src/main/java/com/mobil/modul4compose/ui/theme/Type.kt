@@ -1,4 +1,4 @@
-package com.mobil.modul3compose.ui.theme
+package com.mobil.modul4compose.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
