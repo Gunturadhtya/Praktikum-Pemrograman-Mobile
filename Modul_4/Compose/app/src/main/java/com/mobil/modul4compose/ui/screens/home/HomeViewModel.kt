@@ -1,8 +1,8 @@
-package com.mobil.modul3compose.ui.screens.home
+package com.mobil.modul4compose.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobil.modul3compose.data.ProblemRepository
+import com.mobil.modul4compose.data.ProblemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val repository: ProblemRepository = ProblemRepository
+    private val repository: ProblemRepository,
+    private val moduleName: String
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeState())
