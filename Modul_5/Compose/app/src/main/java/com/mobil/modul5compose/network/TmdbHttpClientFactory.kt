@@ -11,8 +11,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class TmdbHttpClientFactory(
-    private val apiKey: String,
-    private val isDebug: Boolean
+    private val apiKey: String
 ) : HttpClientFactory {
     override fun create(): HttpClient {
         return HttpClient(CIO) {

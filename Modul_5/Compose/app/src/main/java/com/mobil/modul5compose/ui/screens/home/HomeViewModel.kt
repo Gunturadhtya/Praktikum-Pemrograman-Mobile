@@ -2,7 +2,11 @@ package com.mobil.modul5compose.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobil.modul5compose.BuildConfig
 import com.mobil.modul5compose.data.ProblemRepository
+import com.mobil.modul5compose.network.HttpClientFactory
+import com.mobil.modul5compose.network.MovieRepository
+import com.mobil.modul5compose.network.TmdbHttpClientFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
