@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -44,11 +46,25 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+
+    val secretProps = Properties().apply {
+        val secretFile = rootProject.file("secrets.properties")
+        if (secretFile.exists()) {
+            load(secretFile.inputStream())
+        }
     }
 
     defaultConfig {
+        val apiKey = secretProps.getProperty("API_KEY") ?: "\"DEFAULT_KEY\""
+        val readAccessToken = secretProps.getProperty("READ_ACCESS_TOKEN") ?: "\"DEFAULT_KEY\""
 
+        buildConfigField("String", "API_KEY", apiKey)
+        buildConfigField("String", "READ_ACCESS_TOKEN", readAccessToken)
     }
+
+
 }
 
 dependencies {
