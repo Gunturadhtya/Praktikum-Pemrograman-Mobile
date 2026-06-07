@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.mobil.modul5compose.data.ProblemRepository
+import com.mobil.modul5compose.data.SettingsRepository
 import com.mobil.modul5compose.ui.screens.detail.DetailScreen
 import com.mobil.modul5compose.ui.screens.detail.DetailViewModel
 import com.mobil.modul5compose.ui.screens.detail.DetailViewModelFactory
@@ -16,9 +17,13 @@ import com.mobil.modul5compose.ui.screens.home.HomeViewModel
 import com.mobil.modul5compose.ui.screens.home.HomeViewModelFactory
 import com.mobil.modul5compose.ui.screens.language.LanguageScreen
 import com.mobil.modul5compose.ui.screens.language.LanguageViewModel
+import com.mobil.modul5compose.ui.screens.language.LanguageViewModelFactory
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(
+    navController: NavHostController,
+    settingsRepository: SettingsRepository
+) {
     NavHost(navController = navController, startDestination = RoutingNames.HomeScreen) {
         composable<RoutingNames.HomeScreen>{
             val factory = remember { HomeViewModelFactory(ProblemRepository, "Modul4Compose") }
@@ -35,7 +40,8 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable<RoutingNames.LanguageScreen> {
-            val viewModel: LanguageViewModel = viewModel()
+            val factory = remember { LanguageViewModelFactory(settingsRepository) }
+            val viewModel: LanguageViewModel = viewModel(factory = factory)
             LanguageScreen(navController, viewModel)
         }
     }
