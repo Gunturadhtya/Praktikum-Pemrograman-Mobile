@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = :movieId")
-    fun getMovieId(movieId: Int): Flow<MovieEntity>
+    fun getMovieById(movieId: Int): Flow<MovieEntity>
 
     @Query("SELECT * FROM movies ORDER BY cachedAt DESC")
     fun getAllMovies(): Flow<List<MovieEntity>>
