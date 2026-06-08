@@ -7,8 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.mobil.modul5compose.data.ProblemRepository
 import com.mobil.modul5compose.data.SettingsRepository
+import com.mobil.modul5compose.data.local.MovieDao
+import com.mobil.modul5compose.network.MovieRepository
 import com.mobil.modul5compose.ui.screens.detail.DetailScreen
 import com.mobil.modul5compose.ui.screens.detail.DetailViewModel
 import com.mobil.modul5compose.ui.screens.detail.DetailViewModelFactory
@@ -22,22 +23,20 @@ import com.mobil.modul5compose.ui.screens.language.LanguageViewModelFactory
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    settingsRepository: SettingsRepository
+    settingsRepository: SettingsRepository,
+    movieRepository: MovieRepository
 ) {
     NavHost(navController = navController, startDestination = RoutingNames.HomeScreen) {
-        composable<RoutingNames.HomeScreen>{
-            val factory = remember { HomeViewModelFactory(ProblemRepository, "Modul4Compose") }
+        composable<RoutingNames.HomeScreen> {
+            val factory = remember { HomeViewModelFactory(movieRepository) }
             val viewModel: HomeViewModel = viewModel(factory = factory)
             HomeScreen(navController, viewModel)
         }
-        composable<RoutingNames.DetailScreen>{ navBackStack ->
+        composable<RoutingNames.DetailScreen> { navBackStack ->
             val detailArgs = navBackStack.toRoute<RoutingNames.DetailScreen>()
-            val factory = remember { DetailViewModelFactory(detailArgs.problemId, "Modul4Compose") }
+            val factory = remember { DetailViewModelFactory(movieRepository, detailArgs.movieId) }
             val viewModel: DetailViewModel = viewModel(factory = factory)
-
-            DetailScreen(viewModel,
-                { navController.popBackStack() }
-            )
+            DetailScreen(viewModel) { navController.popBackStack() }
         }
         composable<RoutingNames.LanguageScreen> {
             val factory = remember { LanguageViewModelFactory(settingsRepository) }

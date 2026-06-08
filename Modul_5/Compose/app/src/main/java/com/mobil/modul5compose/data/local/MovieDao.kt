@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movies WHERE id = :movieId")
-    fun getMovieById(movieId: Int): Flow<MovieEntity>
+    @Query("SELECT * FROM movies WHERE languageTag = :languageTag ORDER BY cachedAt DESC")
+    fun getAllMovies(languageTag: String): Flow<List<MovieEntity>>
 
-    @Query("SELECT * FROM movies ORDER BY cachedAt DESC")
-    fun getAllMovies(): Flow<List<MovieEntity>>
+    @Query("SELECT * FROM movies WHERE id = :movieId AND languageTag = :languageTag")
+    fun getMovieById(movieId: Int, languageTag: String): Flow<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: MovieEntity)

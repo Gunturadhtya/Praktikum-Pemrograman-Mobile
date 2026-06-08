@@ -1,9 +1,8 @@
 package com.mobil.modul5compose.ui.screens.detail
+import com.mobil.modul5compose.data.local.MovieEntity
 
 data class DetailState(
-    val titleRes: Int = 0,
-    val descRes: Int = 0,
-    val imgRes: Int = 0,
-    val code: String = "",
-    val isNotFound: Boolean = false
+    val movie: MovieEntity? = null,
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null
 )

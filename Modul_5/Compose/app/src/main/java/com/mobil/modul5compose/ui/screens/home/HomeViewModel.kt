@@ -2,55 +2,55 @@ package com.mobil.modul5compose.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobil.modul5compose.BuildConfig
-import com.mobil.modul5compose.data.ProblemRepository
-import com.mobil.modul5compose.network.HttpClientFactory
+import com.mobil.modul5compose.data.Resource
 import com.mobil.modul5compose.network.MovieRepository
-import com.mobil.modul5compose.network.TmdbHttpClientFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class HomeViewModel(
-    private val repository: ProblemRepository,
-    private val moduleName: String
-) : ViewModel() {
-
+@OptIn(ExperimentalCoroutinesApi::class)
+class HomeViewModel(private val repository: MovieRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
 
-    init {
-        Timber.d("ViewModel initialized for module: $moduleName")
-        loadProblems()
-    }
+    init { loadMovies() }
 
-    private fun loadProblems() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = repository.getAllProblems()
-            Timber.d("Loaded ${list.size} problems into the list")
-
-            list.forEach { problem ->
-                Timber.d("Problem Data : $problem")
+    private fun loadMovies() {
+        viewModelScope.launch {
+            repository.languageTag.collect {
+                loadMoviesForCurrentLanguage()
             }
-
-            _uiState.update { it.copy(problems = list) }
         }
     }
 
-    fun onProblemClicked(problemId: String) {
-        _uiState.update { it.copy(navigateToDetailEvent = problemId) }
+    private var moviesJob: kotlinx.coroutines.Job? = null
+
+    private fun loadMoviesForCurrentLanguage() {
+        moviesJob?.cancel()
+        moviesJob = viewModelScope.launch {
+            repository.getPopularMovies().collect { result ->
+                when (result) {
+                    is Resource.Loading -> _uiState.update { it.copy(isLoading = true, movies = result.data ?: it.movies) }
+                    is Resource.Success -> _uiState.update { it.copy(isLoading = false, movies = result.data, errorMessage = null) }
+                    is Resource.Error -> _uiState.update { it.copy(isLoading = false, errorMessage = result.exception.message, movies = result.data ?: it.movies) }
+                }
+            }
+        }
     }
 
-    fun onExternalUrlClicked(url: String) {
-        _uiState.update { it.copy(openExternalUrlEvent = url) }
+    fun onMovieClicked(movieId: Int) {
+        _uiState.update { it.copy(navigateToDetailEvent = movieId) }
     }
 
     fun onDetailNavigationHandled() {
         _uiState.update { it.copy(navigateToDetailEvent = null) }
+    }
+
+    fun onExternalUrlClicked(url: String) {
+        _uiState.update { it.copy(openExternalUrlEvent = url) }
     }
 
     fun onExternalUrlHandled() {

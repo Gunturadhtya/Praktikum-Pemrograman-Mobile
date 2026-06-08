@@ -12,5 +12,6 @@ data class MovieEntity(
     val posterPath: String,
     val releaseDate: String,
     val voteAverage: Double,
+    val languageTag: String,
     val cachedAt: Long = System.currentTimeMillis()
 )

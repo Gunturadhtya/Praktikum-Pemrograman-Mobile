@@ -14,6 +14,7 @@ import io.ktor.http.isSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class MovieRepository(
@@ -22,53 +23,52 @@ class MovieRepository(
     private val settingsRepository: SettingsRepository
 ) : BaseRepository() {
 
-    private val languageQuery: String
-        get() = "${settingsRepository.getLanguageTag()}-${settingsRepository.getLanguageTag().uppercase()}"
+    val languageTag = settingsRepository.languageTag
 
 
-    suspend fun getPopularMovies(): Flow<Resource<List<MovieEntity>>> {
+    fun getPopularMovies(): Flow<Resource<List<MovieEntity>>> {
+        val currentLanguage = settingsRepository.getLanguageTag()
         return networkBoundResource(
             query = {
-                movieDao.getAllMovies()
+                movieDao.getAllMovies(currentLanguage)
             },
             fetch = {
-                val response = client.get("movie/popular?language=$languageQuery")
+                val response = client.get("movie/popular?language=$currentLanguage")
                 if(!response.status.isSuccess()){
                     throw Exception("API Error: ${response.status.value}")
                 }
                 response.body<TmdbListResponse>()
             },
             saveFetchResult = { response ->
-                movieDao.insertMovie(response.results.map { it.toEntity() })
+                movieDao.insertMovie(response.results.map { it.toEntity(currentLanguage) })
             },
             shouldFetch = { cachedList ->
-                val cacheExpirationMillis = 24 * 60 * 60 * 1000L
-                cachedList.isNullOrEmpty() || (System.currentTimeMillis() - cachedList.first().cachedAt > cacheExpirationMillis)
-
+                cachedList.isNullOrEmpty()
             }
         ).flowOn(Dispatchers.IO)
     }
 
-    suspend fun getMovie(movieId: Int): Flow<Resource<MovieEntity>> {
+    fun getMovie(movieId: Int): Flow<Resource<MovieEntity>> {
+        val currentLanguage = settingsRepository.getLanguageTag()
         return networkBoundResource(
             query = {
-                movieDao.getMovieById(movieId).filterNotNull()
+                movieDao.getMovieById(movieId, currentLanguage).filterNotNull()
             },
             fetch = {
-                val response = client.get("movie/$movieId?language=$languageQuery")
+                val response = client.get("movie/$movieId?language=$currentLanguage")
                 if(!response.status.isSuccess()){
                     throw Exception("API Error: ${response.status.value}")
                 }
                 response.body<MovieResponse>()
             },
             saveFetchResult = { response ->
-                movieDao.insertMovie(response.toEntity())
+                movieDao.insertMovie(response.toEntity(currentLanguage))
             },
             shouldFetch = { cachedEntity ->
-                val cacheExpirationMillis = 24 * 60 * 60 * 1000L
-                cachedEntity == null || (System.currentTimeMillis() - cachedEntity.cachedAt > cacheExpirationMillis)
-
+                cachedEntity == null
             }
         ).flowOn(Dispatchers.IO)
     }
+
+
 }

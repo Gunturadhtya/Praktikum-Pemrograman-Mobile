@@ -9,7 +9,7 @@ sealed class RoutingNames {
 
     @Serializable
     data class DetailScreen(
-        val problemId: String
+        val movieId: Int
     ) : RoutingNames()
 
     @Serializable

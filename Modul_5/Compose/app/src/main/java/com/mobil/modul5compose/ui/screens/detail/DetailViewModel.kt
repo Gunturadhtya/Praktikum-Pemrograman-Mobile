@@ -1,45 +1,32 @@
 package com.mobil.modul5compose.ui.screens.detail
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobil.modul5compose.data.ProblemRepository
-import kotlinx.coroutines.Dispatchers
+import com.mobil.modul5compose.data.Resource
+import com.mobil.modul5compose.network.MovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DetailViewModel(
-    private val problemId: String,
-    private val moduleName: String
+    private val repository: MovieRepository,
+    private val movieId: Int
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(DetailState())
     val state: StateFlow<DetailState> = _state.asStateFlow()
 
-    fun loadDetail(context: Context) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val problem = ProblemRepository.getProblemById(problemId)
+    init { loadMovie() }
 
-            if (problem == null) {
-                _state.update { it.copy(isNotFound = true) }
-                return@launch
-            }
-
-            val codeText = context.resources.openRawResource(problem.solutionCode).bufferedReader().use { it.readText() }
-
-            Timber.d("DetailViewModel initialized for module $moduleName : $problem")
-
-            _state.update {
-                it.copy(
-                    titleRes = problem.title,
-                    descRes = problem.description,
-                    imgRes = problem.img,
-                    code = codeText,
-                )
+    private fun loadMovie() {
+        viewModelScope.launch {
+            repository.getMovie(movieId).collect { result ->
+                when (result) {
+                    is Resource.Loading -> _state.update { it.copy(isLoading = true, movie = result.data ?: it.movie) }
+                    is Resource.Success -> _state.update { it.copy(isLoading = false, movie = result.data, errorMessage = null) }
+                    is Resource.Error -> _state.update { it.copy(isLoading = false, errorMessage = result.exception.message, movie = result.data ?: it.movie) }
+                }
             }
         }
     }
